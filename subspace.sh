@@ -13,15 +13,18 @@ bash_profile=$HOME/.bash_profile
 if [ -f "$bash_profile" ]; then
     . $HOME/.bash_profile
 fi
-sleep 1 && curl -s https://raw.githubusercontent.com/MrN1x0n/MrN1x0n/main/logo.sh | bash && sleep 1
+sleep 1 && curl -s https://raw.githubusercontent.com/MrN1x0n/MrN1x0n/main/logo.sh  | bash && sleep 1
 
 
 cd $HOME
 rm -rf subspace*
-wget -O subspace-node https://github.com/subspace/subspace/releases/download/snapshot-2022-mar-09/subspace-node-ubuntu-x86_64-snapshot-2022-mar-09
-wget -O subspace-farmer https://github.com/subspace/subspace/releases/download/snapshot-2022-mar-09/subspace-farmer-ubuntu-x86_64-snapshot-2022-mar-09
+wget -O subspace-node https://github.com/subspace/subspace/releases/download/gemini-1b-2022-jun-13/subspace-node-ubuntu-x86_64-gemini-1b-2022-jun-13
+wget -O subspace-farmer https://github.com/subspace/subspace/releases/download/gemini-1b-2022-jun-13/subspace-farmer-ubuntu-x86_64-gemini-1b-2022-jun-13 
 chmod +x subspace*
 mv subspace* /usr/local/bin/
+
+systemctl stop subspaced subspaced-farmer &>/dev/null
+rm -rf ~/.local/share/subspace*
 
 source ~/.bash_profile
 sleep 1
@@ -33,7 +36,7 @@ After=network.target
 [Service]
 User=$USER
 Type=simple
-ExecStart=$(which subspace-node) --chain testnet --wasm-execution compiled --execution wasm --bootnodes \"/dns/farm-rpc.subspace.network/tcp/30333/p2p/12D3KooWPjMZuSYj35ehced2MTJFf95upwpHKgKUrFRfHwohzJXr\" --rpc-cors all --rpc-methods unsafe --ws-external --validator --telemetry-url \"wss://telemetry.polkadot.io/submit/ 1\" --telemetry-url \"wss://telemetry.subspace.network/submit 1\" --name $SUBSPACE_NODENAME
+ExecStart=$(which subspace-node) --chain gemini-1 --execution wasm --keep-blocks 1024 --pruning 1024 --validator --name $SUBSPACE_NODENAME
 Restart=on-failure
 LimitNOFILE=65535
 
@@ -48,7 +51,7 @@ After=network.target
 [Service]
 User=$USER
 Type=simple
-ExecStart=$(which subspace-farmer) farm --reward-address $SUBSPACE_WALLET
+ExecStart=$(which subspace-farmer) farm --reward-address $SUBSPACE_WALLET --plot-size 100G
 Restart=on-failure
 LimitNOFILE=65535
 
