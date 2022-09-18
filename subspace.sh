@@ -1,4 +1,3 @@
-
 sudo apt update && sudo apt install ocl-icd-opencl-dev libopencl-clang-dev libgomp1 -y
 cd $HOME
 wget -O subspace-node https://github.com/subspace/subspace/releases/download/gemini-2a-2022-sep-06/subspace-node-ubuntu-x86_64-gemini-2a-2022-sep-06
@@ -9,7 +8,7 @@ mv subspace-node /usr/local/bin/
 mv subspace-farmer /usr/local/bin/
 
 
-sudo tee /etc/systemd/system/subspaced.service > /dev/null <<EOF
+sudo tee /etc/systemd/system/subspace.service > /dev/null <<EOF
 [Unit]
 Description=Subspace Node
 After=network.target
@@ -25,15 +24,15 @@ LimitNOFILE=65535
 WantedBy=multi-user.target"
 EOF
 
-sudo tee /etc/systemd/system/subspaced-farmer.service > /dev/null <<EOF
+sudo tee /etc/systemd/system/subspace-farmer.service > /dev/null <<EOF
 [Unit]
-Description=Subspaced Farm
+Description=Subspace Farmer
 After=network.target
 
 [Service]
 User=$USER
 Type=simple
-ExecStart=/usr/local/bin/subspace-farmer farm --reward-address $SUB_WALLET --plot-size $SUB_PLOT
+ExecStart=/usr/local/bin/subspace-farmer farm --reward-address $SUB_WALLET --plot-size 110G
 Restart=on-failure
 LimitNOFILE=65535
 
@@ -43,6 +42,5 @@ EOF
 
 sudo systemctl restart systemd-journald
 sudo systemctl daemon-reload
-sudo systemctl enable subspaced subspaced-farmer
-sudo systemctl restart subspaced
-sudo systemctl restart subspaced-farmer
+sudo systemctl enable subspace subspace-farmer
+sudo systemctl restart subspace subspace-farmer
