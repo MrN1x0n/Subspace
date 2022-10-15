@@ -1,7 +1,7 @@
 sudo apt update && sudo apt install ocl-icd-opencl-dev libopencl-clang-dev libgomp1 -y
 cd $HOME
-wget -O subspace-node https://github.com/subspace/subspace/releases/download/gemini-2a-2022-sep-06/subspace-node-ubuntu-x86_64-gemini-2a-2022-sep-06
-wget -O subspace-farmer https://github.com/subspace/subspace/releases/download/gemini-2a-2022-sep-06/subspace-farmer-ubuntu-x86_64-gemini-2a-2022-sep-06
+wget -O subspace-node https://github.com/subspace/subspace/releases/download/gemini-2a-2022-oct-06/subspace-node-ubuntu-x86_64-gemini-2a-2022-oct-06
+wget -O subspace-farmer https://github.com/subspace/subspace/releases/download/gemini-2a-2022-oct-06/subspace-farmer-ubuntu-x86_64-gemini-2a-2022-oct-06
 chmod +x subspace-node
 chmod +x subspace-farmer
 mv subspace-node /usr/local/bin/
